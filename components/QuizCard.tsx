@@ -21,10 +21,7 @@ const QuizCard: FC<QuizCardProps> = ({
   id,
 }) => {
   return (
-    <div
-      key={key}
-      className="flex flex-col max-w-screen-md box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01]"
-    >
+    <div className="flex flex-col max-w-screen-md box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01]">
       <div className="flex justify-between">
         <h1 className="flex items-center space-x-2">
           <MdNote size={12} />

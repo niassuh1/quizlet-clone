@@ -3,10 +3,16 @@ import prismaClient from "../../../util/prismaclient";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    const { title, description, cards } = req.body;
-    await prismaClient.set.create({
-      data: { title, description, card: { createMany: { data: cards } } },
+    const { title, description, cards, creatorId } = req.body;
+    const set = await prismaClient.set.create({
+      data: {
+        title,
+        description,
+        creatorId,
+        card: { createMany: { data: cards } },
+      },
     });
+    res.status(200).send({ set });
   }
 };
 

@@ -2,6 +2,7 @@ import {
   ChangeEventHandler,
   FC,
   HTMLInputTypeAttribute,
+  LegacyRef,
   MouseEventHandler,
   useState,
 } from "react";
@@ -15,6 +16,7 @@ interface TextFieldProps {
   type?: HTMLInputTypeAttribute;
   className?: string;
   value?: string | number | readonly string[];
+  ref?: LegacyRef<HTMLInputElement>;
 }
 
 export const TextField: FC<TextFieldProps> = ({
@@ -24,6 +26,7 @@ export const TextField: FC<TextFieldProps> = ({
   type,
   className,
   value,
+  ref,
 }) => {
   return (
     <div
@@ -41,6 +44,7 @@ export const TextField: FC<TextFieldProps> = ({
         type={type}
         onChange={onChange}
         value={value}
+        ref={ref}
       />
     </div>
   );

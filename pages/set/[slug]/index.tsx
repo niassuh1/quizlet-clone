@@ -19,6 +19,9 @@ import TabButton from "../../../components/TabButton";
 import TabMenu from "../../../components/TabMenu";
 import { useAuthContext } from "../../../context/Auth";
 import Button from "../../../components/Button";
+import axios from "axios";
+import { useRouter } from "next/dist/client/router";
+import { toast } from "react-toastify";
 
 interface SetSlugProps {
   set?: SetType;
@@ -26,9 +29,18 @@ interface SetSlugProps {
 
 const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
   const { user } = useAuthContext();
-  if (user?.id == set?.creatorId) {
-    console.log("Can edit");
-  }
+  const route = useRouter();
+
+  const handleDelete = async () => {
+    const del = await axios.delete(`/api/set/delete`, {
+      data: { id: set?.id },
+    });
+    if (del.status == 200) {
+      toast("Successfully Deleted");
+      route.push("/", { query: "setdelete" });
+    }
+  };
+
   return (
     <div>
       <Head>
@@ -62,9 +74,17 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
           </TabButton>
         </div>
         {user?.id == set?.creatorId ? (
-          <Button className="flex bg-primary-500 rounded-lg text-white px-6 py-2 mx-auto mb-3">
-            Edit
-          </Button>
+          <div className="flex justify-center space-x-4">
+            <Button
+              onClick={handleDelete}
+              className="flex bg-accent-500 hover:bg-accent-600 rounded-lg text-black px-6 py-2  mb-3"
+            >
+              Delete
+            </Button>
+            <Button className="flex bg-primary-500 rounded-lg text-white px-6 py-2  mb-3">
+              Edit
+            </Button>
+          </div>
         ) : (
           <></>
         )}

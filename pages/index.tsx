@@ -12,10 +12,10 @@ import GrayBackground from "../components/GrayBackground";
 import Link from "next/link";
 
 interface HomeProps {
-  data?: SetType[];
+  sets?: SetType[];
 }
 
-const Home: NextPage<HomeProps> = ({ data }) => {
+const Home: NextPage<HomeProps> = ({ sets }) => {
   return (
     <div>
       <Head>
@@ -29,15 +29,14 @@ const Home: NextPage<HomeProps> = ({ data }) => {
       <div className="px-9 mb-6">
         <h1 className="text-xl mb-4 font-medium">Latest Quizzes</h1>
         <QuizCardGrid>
-          {data!.map((value) => {
+          {sets!.map((set) => {
             return (
               <QuizCard
-                key={value.id}
-                title={value.title}
-                amount={value.card!.length}
-                description={value.description}
-                id={value.id}
-                creatorName=""
+                key={set.id}
+                title={set.title}
+                amount={set.card!.length}
+                description={set.description}
+                id={set.id}
               />
             );
           })}
@@ -77,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     orderBy: { created_at: "desc" },
   });
 
-  return { props: { data: sets } };
+  return { props: { sets } };
 };
 
 export default Home;

@@ -26,7 +26,7 @@ const Header: FC = () => {
     }
 
     return () => {};
-  });
+  }, [user]);
 
   return (
     <header className="flex px-9 py-6 items-center z-[99] md:justify-between">

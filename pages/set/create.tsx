@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,7 @@ import {
   Key,
   MouseEventHandler,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { TextField } from "../../components/TextField";
@@ -22,6 +23,7 @@ import IconButton from "../../components/IconButton";
 import { MdDelete, MdExpandLess, MdExpandMore, MdMenu } from "react-icons/md";
 import Button from "../../components/Button";
 import axios from "axios";
+import supabase from "../../util/supabase";
 
 interface CardsState {
   order?: number;
@@ -34,6 +36,8 @@ const CreateSet: NextPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const titleRef = useRef("");
+
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [cards, setCards] = useState<CardsState[]>([
     { order: 0, term: "", definition: "" },
@@ -123,12 +127,16 @@ const CreateSet: NextPage = () => {
       title,
       description: desc,
       cards,
+      creatorId: user?.id,
     });
     if (set.status == 400) {
       toast.error("An error occured 🙁");
       setButtonDisabled(false);
     } else {
       toast("🤩 Set has been created");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     }
   };
 
@@ -159,7 +167,7 @@ const CreateSet: NextPage = () => {
             label="Description"
             placeholder="Description"
             type="text"
-            onChange={(e) => setDesc(e.target.value)}
+            onChange={(e) => (titleRef.current = e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-4">
@@ -219,7 +227,7 @@ const TermDefinitionCard: FC<TermDefinitionCardProps> = ({
   defintion,
 }) => {
   return (
-    <Card className="p-5 flex-col space-y-2">
+    <Card key={key} className="p-5 flex-col space-y-2">
       <div className="flex justify-between items-center space-x-3">
         <MdMenu />
         <div className="space-y-2">
