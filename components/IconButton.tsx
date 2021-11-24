@@ -5,20 +5,26 @@ interface IconButtonProps {
   onClick?: MouseEventHandler;
   Icon: IconType;
   size?: string | number;
+  className?: string;
 }
 
 /**
  * Button used for react-icons
  * @param {IconType} icon
  */
-const IconButton: FC<IconButtonProps> = ({ Icon, onClick, size }) => {
+const IconButton: FC<IconButtonProps> = ({
+  Icon,
+  onClick,
+  size,
+  className,
+}) => {
   return (
-    <button
+    <div
       onClick={onClick}
-      className="fle hover:bg-accent-400 active:bg-accent-500 self-start text-lg  p-2 rounded-md transition-colors ease-in-out duration-200"
+      className={`cursor-pointer flex self-start text-lg  p-2 rounded-md transition-colors ease-in-out duration-200 ${className}`}
     >
       <Icon size={size} />
-    </button>
+    </div>
   );
 };
 

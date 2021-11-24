@@ -1,12 +1,13 @@
 import "tailwindcss/tailwind.css";
 import type { AppProps } from "next/app";
-import Header from "../components/Header";
+import { AuthProvider } from "../context/Auth";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Component {...pageProps} />
-      <footer className="my-12" />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </>
   );
 }

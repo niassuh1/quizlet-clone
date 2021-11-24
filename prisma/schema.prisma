@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NEXT_APP_DATABASE_URL")
+}
+
+model card {
+  id         String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  term       String @db.VarChar
+  definition String @db.VarChar
+  setId      String @db.Uuid
+  order      Int?   @default(0) @db.SmallInt
+  set        set    @relation(fields: [setId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model set {
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title       String    @db.VarChar
+  description String?   @db.VarChar
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  card        card[]
+}
+
+model user {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  email      String    @unique @db.VarChar
+  name       String?   @db.VarChar
+}

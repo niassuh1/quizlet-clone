@@ -9,7 +9,11 @@ module.exports = {
     fontFamily: {
       sans: ["Rubik"],
     },
+    rotate: {
+      360: "360deg",
+    },
     colors: {
+      transparent: "transparent",
       primary: {
         300: "#464A4C",
         400: "#333435",
@@ -17,8 +21,10 @@ module.exports = {
       },
       accent: {
         300: "#EDEFF4",
+
         400: "#DADDE5",
-        500: "#B1BBC9",
+        500: "#C1C5D1",
+        600: "#B1BBC9",
       },
       green: "#00CC88",
       black: colors.black,
