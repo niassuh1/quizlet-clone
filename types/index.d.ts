@@ -10,5 +10,6 @@ export interface SetType {
   title?: string;
   description?: string;
   created_at?: Date;
+  creatorId?: String;
   card?: CardType[];
 }

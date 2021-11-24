@@ -11,9 +11,10 @@ import Button from "./Button";
 interface TextFieldProps {
   placeholder?: string;
   label?: string;
-  onChange?: ChangeEventHandler;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   type?: HTMLInputTypeAttribute;
   className?: string;
+  value?: string | number | readonly string[];
 }
 
 export const TextField: FC<TextFieldProps> = ({
@@ -22,13 +23,14 @@ export const TextField: FC<TextFieldProps> = ({
   label,
   type,
   className,
+  value,
 }) => {
   return (
     <div
       className={`w-full flex flex-col border-b-2 pb-1 border-primary-500 ${className}`}
     >
       <label
-        className="flex-grow text-xs font-semibold"
+        className="flex-grow text-xs font-semibold select-none"
         htmlFor={label?.toLocaleLowerCase()}
       >
         {label}
@@ -38,6 +40,7 @@ export const TextField: FC<TextFieldProps> = ({
         className="outline-none w-full bg-transparent"
         type={type}
         onChange={onChange}
+        value={value}
       />
     </div>
   );

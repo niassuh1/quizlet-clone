@@ -21,7 +21,7 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer flex self-start text-lg  p-2 rounded-md transition-colors ease-in-out duration-200 ${className}`}
+      className={`cursor-pointer flex self-start text-lg  p-1 rounded-md transition-colors ease-in-out duration-200 ${className}`}
     >
       <Icon size={size} />
     </div>

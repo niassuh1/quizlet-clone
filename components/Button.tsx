@@ -4,11 +4,23 @@ interface ButtonProps {
   onClick?: MouseEventHandler;
   className?: string;
   type?: "button" | "reset" | "submit";
+  disabled?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, className, onClick, type }) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  onClick,
+  type,
+  disabled = false,
+}) => {
   return (
-    <button type={type} onClick={onClick} className={` ${className}`}>
+    <button
+      disabled={disabled}
+      type={type}
+      onClick={onClick}
+      className={` ${className}`}
+    >
       {children}
     </button>
   );

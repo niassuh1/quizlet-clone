@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       description: true,
       id: true,
       title: true,
+      creatorId: true,
     },
     take: 6,
     orderBy: { created_at: "desc" },

@@ -1,9 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import GrayBackground from "../../components/GrayBackground";
-import Header from "../../components/Header";
-import { SetType } from "../../types";
-import prismaClient from "../../util/prismaclient";
+import GrayBackground from "../../../components/GrayBackground";
+import Header from "../../../components/Header";
+import { SetType } from "../../../types";
+import prismaClient from "../../../util/prismaclient";
 import Image from "next/image";
 
 //SwiperJS Stuff
@@ -14,15 +14,21 @@ SwiperCore.use([EffectCards]);
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-cards";
-import FlashCard from "../../components/FlashCard";
-import TabButton from "../../components/TabButton";
-import TabMenu from "../../components/TabMenu";
+import StudyCard from "../../../components/StudyCard";
+import TabButton from "../../../components/TabButton";
+import TabMenu from "../../../components/TabMenu";
+import { useAuthContext } from "../../../context/Auth";
+import Button from "../../../components/Button";
 
 interface SetSlugProps {
   set?: SetType;
 }
 
 const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
+  const { user } = useAuthContext();
+  if (user?.id == set?.creatorId) {
+    console.log("Can edit");
+  }
   return (
     <div>
       <Head>
@@ -34,7 +40,7 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
       <Header />
       <div className="px-9">
         <h1 className="text-lg font-medium mb-4">{set?.title}</h1>
-        <div className="flex w-full justify-center space-x-4 mb-6">
+        <div className="flex w-full justify-center space-x-4 mb-3">
           <TabButton>
             <Image
               alt="flashcard"
@@ -55,6 +61,13 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
             <span>Learn</span>
           </TabButton>
         </div>
+        {user?.id == set?.creatorId ? (
+          <Button className="flex bg-primary-500 rounded-lg text-white px-6 py-2 mx-auto mb-3">
+            Edit
+          </Button>
+        ) : (
+          <></>
+        )}
 
         <div className="w-[calc(100%-4rem)] max-w-[600px] mx-auto h-[300px] items-center justify-center shadow-xl">
           <Swiper effect="cards" grabCursor={true} className="rounded-lg">
@@ -64,7 +77,7 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
                   className="flex items-center h-full w-full justify-center rounded-lg"
                   key={cardValue.id}
                 >
-                  <FlashCard key={cardValue.id} card={cardValue} />
+                  <StudyCard key={cardValue.id} card={cardValue} />
                 </SwiperSlide>
               );
             })}
@@ -84,6 +97,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       description: true,
       id: true,
       title: true,
+      creatorId: true,
       card: { orderBy: { order: "asc" } },
     },
   });
