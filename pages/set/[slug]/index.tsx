@@ -21,7 +21,6 @@ import { useAuthContext } from "../../../context/Auth";
 import Button from "../../../components/Button";
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import { toast } from "react-toastify";
 
 interface SetSlugProps {
   set?: SetType;
@@ -36,8 +35,7 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
       data: { id: set?.id },
     });
     if (del.status == 200) {
-      toast("Successfully Deleted");
-      route.push("/", { query: "setdelete" });
+      route.push("/?action=delete");
     }
   };
 

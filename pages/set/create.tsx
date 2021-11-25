@@ -14,7 +14,6 @@ import {
   Key,
   MouseEventHandler,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { TextField } from "../../components/TextField";
@@ -23,7 +22,6 @@ import IconButton from "../../components/IconButton";
 import { MdDelete, MdExpandLess, MdExpandMore, MdMenu } from "react-icons/md";
 import Button from "../../components/Button";
 import axios from "axios";
-import supabase from "../../util/supabase";
 
 interface CardsState {
   order?: number;
@@ -36,7 +34,6 @@ const CreateSet: NextPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const titleRef = useRef("");
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [cards, setCards] = useState<CardsState[]>([
@@ -112,14 +109,15 @@ const CreateSet: NextPage = () => {
       return;
     }
 
+    let filled = true;
     for (let i = 0; i < cards.length; i++) {
-      let filled = true;
       if (cards[i].term == "" || cards[i].definition == "") {
         toast.info("🙁 Make sure you fill every card");
         filled = false;
       }
       if (!filled) break;
     }
+    if (!filled) return;
 
     setButtonDisabled(true);
 
@@ -167,7 +165,7 @@ const CreateSet: NextPage = () => {
             label="Description"
             placeholder="Description"
             type="text"
-            onChange={(e) => (titleRef.current = e.target.value)}
+            onChange={(e) => setDesc(e.target.value)}
           />
         </div>
         <div className="flex flex-col space-y-4">
