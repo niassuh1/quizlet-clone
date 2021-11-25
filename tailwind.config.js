@@ -5,13 +5,16 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+
+
+    },
+
     fontFamily: {
-      sans: ["Rubik"],
+      sans: ["Poppins"],
+      serif: ['Poppins']
     },
-    rotate: {
-      360: "360deg",
-    },
+
     colors: {
       transparent: "transparent",
       primary: {

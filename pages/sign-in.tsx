@@ -38,7 +38,7 @@ const SignIn: NextPage = () => {
     const user = await supabase.auth.signIn({ email: email, password: pwd });
 
     if (user.error) {
-      toast.error("Inavlid");
+      toast.error("An error has occured");
       return;
     }
     if (user) {

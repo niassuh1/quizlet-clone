@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,22 +6,17 @@ import { toast, ToastContainer } from "react-toastify";
 import GrayBackground from "../../components/GrayBackground";
 import Header from "../../components/Header";
 import { useAuthContext } from "../../context/Auth";
-import {
+import React, {
   ChangeEvent,
-  ChangeEventHandler,
-  FC,
   FormEventHandler,
-  Key,
-  MouseEventHandler,
   useEffect,
   useState,
 } from "react";
 import { TextField } from "../../components/TextField";
 import Card from "../../components/Card";
-import IconButton from "../../components/IconButton";
-import { MdDelete, MdExpandLess, MdExpandMore, MdMenu } from "react-icons/md";
 import Button from "../../components/Button";
 import axios from "axios";
+import TermDefinitionCard from "../../components/TermDefinitonCard";
 
 interface CardsState {
   order?: number;
@@ -98,7 +93,6 @@ const CreateSet: NextPage = () => {
         order += 1;
       }
     });
-    console.log(newCards);
     setCards([...newCards]);
   };
 
@@ -200,71 +194,6 @@ const CreateSet: NextPage = () => {
         </Button>
       </form>
     </div>
-  );
-};
-
-interface TermDefinitionCardProps {
-  deleteButtonOnClick?: MouseEventHandler;
-  upButtonOnClick?: MouseEventHandler;
-  downButtonOnClick?: MouseEventHandler;
-  termOnChange?: ChangeEventHandler<HTMLInputElement>;
-  term?: string;
-  defintion?: string;
-  definitionOnChange?: ChangeEventHandler<HTMLInputElement>;
-  key?: Key;
-}
-
-const TermDefinitionCard: FC<TermDefinitionCardProps> = ({
-  termOnChange,
-  definitionOnChange,
-  deleteButtonOnClick,
-  downButtonOnClick,
-  key,
-  upButtonOnClick,
-  term,
-  defintion,
-}) => {
-  return (
-    <Card key={key} className="p-5 flex-col space-y-2">
-      <div className="flex justify-between items-center space-x-3">
-        <MdMenu />
-        <div className="space-y-2">
-          <IconButton
-            className="text-accent-600 hover:bg-accent-300 hover:text-primary-400 active:bg-accent-400 "
-            Icon={MdExpandLess}
-          />
-          <IconButton
-            className="text-accent-600 hover:bg-accent-300 hover:text-primary-400 active:bg-accent-400 "
-            Icon={MdExpandMore}
-          />
-        </div>
-      </div>
-
-      <div className="flex space-x-5 ">
-        <TextField
-          className="md:text-2xl"
-          label="Term"
-          placeholder="Term"
-          type="text"
-          onChange={termOnChange}
-          value={term}
-        />
-        <TextField
-          className="md:text-2xl"
-          label="Definition"
-          placeholder="Definition"
-          type="text"
-          onChange={definitionOnChange}
-          value={defintion}
-        />
-      </div>
-
-      <IconButton
-        className="text-accent-600 hover:bg-accent-300 hover:text-primary-400 active:bg-accent-400 self-end"
-        Icon={MdDelete}
-        onClick={deleteButtonOnClick}
-      />
-    </Card>
   );
 };
 

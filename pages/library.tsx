@@ -12,3 +12,5 @@ const Library: NextPage = () => {
     </div>
   );
 };
+
+export default Library;

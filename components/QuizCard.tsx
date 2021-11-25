@@ -21,7 +21,10 @@ const QuizCard: FC<QuizCardProps> = ({
   id,
 }) => {
   return (
-    <div className="flex flex-col max-w-screen-md box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01]">
+    <div
+      key={key}
+      className="flex flex-col max-w-screen-md box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01]"
+    >
       <div className="flex justify-between">
         <h1 className="flex items-center space-x-2">
           <MdNote size={12} />
@@ -37,10 +40,8 @@ const QuizCard: FC<QuizCardProps> = ({
         {description}
       </p>
       <Link href={`/set/${id}`} passHref>
-        <a href="">
-          <Button className="bg-primary-500 uppercase tracking-[0.15em] text-xs text-white px-4 py-3 rounded-lg self-start active:bg-primary-300 transition-colors ease-in-out duration-[150ms]">
-            Start
-          </Button>
+        <a className="bg-primary-500 uppercase tracking-[0.15em] text-xs text-white px-4 py-3 rounded-lg self-start active:bg-primary-300 transition-colors ease-in-out duration-[150ms]">
+          Start
         </a>
       </Link>
     </div>

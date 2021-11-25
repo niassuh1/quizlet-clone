@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, useEffect, useState } from "react";
+import { FC, MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { MdMenu, MdChevronLeft, MdLogout } from "react-icons/md";
 import IconButton from "./IconButton";
 import Link from "next/link";
@@ -11,6 +11,7 @@ const Header: FC = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [username, setName] = useState("");
   const { user } = useAuthContext();
+  const [beCool, setBeCool] = useState(false);
 
   const toggleNav: MouseEventHandler = () => {
     setNavOpen(!navOpen);
@@ -24,53 +25,73 @@ const Header: FC = () => {
         })
         .catch();
     }
-
-    return () => {};
   }, [user]);
 
+  //For doing something cool
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (scrollY >= 160) {
+        setBeCool(true);
+      } else {
+        setNavOpen(false);
+        setBeCool(false);
+      }
+    });
+    return () => {};
+  }, []);
+
   return (
-    <header className="flex px-9 py-6 items-center z-[99] md:justify-between">
-      <IconButton
-        className="md:hidden hover:bg-accent-400 active:bg-accent-500"
-        Icon={MdMenu}
-        onClick={toggleNav}
-        size={18}
-      />
-
-      <Link href="/" passHref>
-        <a className="mx-auto flex self-center items-center space-x-2 md:mx-0">
-          <Image alt="logo" src="/images/logo.svg" width={32} height={32} />
-          <span>Studify</span>
-        </a>
-      </Link>
-
-      <Nav isOpen={navOpen}>
+    <>
+      <header
+        className={`flex px-9 py-6 items-center z-[99] md:justify-between transition-all ease-in-out duration-[250ms]  ${
+          beCool
+            ? "fixed w-full bg-white bg-opacity-5 backdrop-blur-md top-0 shadow-lg"
+            : "-top-full"
+        }`}
+      >
         <IconButton
           className="md:hidden hover:bg-accent-400 active:bg-accent-500"
-          Icon={MdChevronLeft}
+          Icon={MdMenu}
           onClick={toggleNav}
-          size={20}
+          size={18}
         />
 
-        <NavItem
-          className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
-          href="/"
-        >
-          Home
-        </NavItem>
+        <Link href="/" passHref>
+          <a className="mx-auto flex self-center items-center space-x-2 md:mx-0">
+            <Image alt="logo" src="/images/logo.svg" width={32} height={32} />
+            <span>Studify</span>
+          </a>
+        </Link>
 
-        <NavItem
-          className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
-          href="/library"
-        >
-          Library
-        </NavItem>
+        <Nav isOpen={navOpen}>
+          <IconButton
+            className="md:hidden hover:bg-accent-400 active:bg-accent-500"
+            Icon={MdChevronLeft}
+            onClick={toggleNav}
+            size={20}
+          />
 
-        <div className="flex-1 md:hidden" />
+          <NavItem
+            className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
+            href="/"
+          >
+            Home
+          </NavItem>
 
-        {user ? <UserGreeting username={username} /> : <GuestGreeting />}
-      </Nav>
-    </header>
+          <NavItem
+            className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
+            href="/library"
+          >
+            Library
+          </NavItem>
+
+          <div className="flex-1 md:hidden" />
+
+          {user ? <UserGreeting username={username} /> : <GuestGreeting />}
+        </Nav>
+      </header>
+      {beCool && <div className="flex h-[80px]" />}
+    </>
   );
 };
 
@@ -87,7 +108,7 @@ interface NavProps {
 const Nav: FC<NavProps> = ({ children, isOpen = false }) => {
   return (
     <nav
-      className={`flex fixed z-50 left-0 top-0 bg-white shadow-lg py-2 pb-6 h-full transform ${
+      className={`flex fixed z-50 left-0 top-0 bg-white shadow-lg py-2 pb-20 h-screen md:h-auto transform ${
         isOpen ? "" : "-translate-x-full"
       } transition-transform ease-in-out md:relative md:bg-transparent md:shadow-none md:transform-none md:py-0`}
     >
