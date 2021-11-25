@@ -1,12 +1,11 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { FC, useEffect } from "react";
-import Button from "../components/Button";
+
 import Header from "../components/Header";
 import QuizCard from "../components/QuizCard";
 import { SetType } from "../types";
-import supabase from "../util/supabase";
-import { prisma, PrismaClient } from "@prisma/client";
+
 import prismaClient from "../util/prismaclient";
 import GrayBackground from "../components/GrayBackground";
 import Link from "next/link";

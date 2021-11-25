@@ -2,19 +2,9 @@ const colors = require("tailwindcss/colors");
 
 module.exports = {
   mode: "jit", // or 'media' or 'class'
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/*.{js,ts,jsx,tsx}"],
   darkMode: false,
   theme: {
-    extend: {
-
-
-    },
-
-    fontFamily: {
-      sans: ["Poppins"],
-      serif: ['Poppins']
-    },
-
     colors: {
       transparent: "transparent",
       primary: {
@@ -36,6 +26,10 @@ module.exports = {
       red: colors.rose,
     },
   },
+  fontFamily: {
+    sans: ["Rubik"],
+    serif: ["Rubik"]
+  },  
   variants: {
     extend: {
       backgroundColor: ["active"],
