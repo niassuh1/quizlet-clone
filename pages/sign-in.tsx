@@ -19,7 +19,7 @@ const SignIn: NextPage = () => {
 
   const router = useRouter();
   //If the user is authenticated, then go back
-  if (user) router.back();
+  if (user) router.push("/");
 
   const handleEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);

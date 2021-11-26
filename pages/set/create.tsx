@@ -132,6 +132,42 @@ const CreateSet: NextPage = () => {
     }
   };
 
+  const handleReorderUpwards = (index: number) => {
+    console.log(index);
+    if (index - 1 < 0) return;
+    const cardsArr = [...cards];
+
+    //Upper card order will increment, bottom card order will decrement
+    const upperCard = cardsArr[index - 1];
+    upperCard.order = index;
+    const bottomCard = cardsArr[index];
+    bottomCard.order = index - 1;
+
+    //Set the new card array value
+    cardsArr[index] = upperCard;
+    cardsArr[index - 1] = bottomCard;
+
+    //Set the new value
+    setCards(cardsArr);
+  };
+  const handleReorderDownwards = (index: number) => {
+    console.log(index);
+    if (index + 1 >= cards.length) return;
+    const cardsArr = [...cards];
+
+    const upperCard = cardsArr[index];
+    upperCard.order = index + 1;
+    const bottomCard = cardsArr[index + 1];
+    bottomCard.order = index;
+
+    //Set the new card array value
+    cardsArr[index + 1] = upperCard;
+    cardsArr[index] = bottomCard;
+
+    //Set the new value
+    setCards(cardsArr);
+  };
+
   return (
     <div>
       <Head>
@@ -172,6 +208,8 @@ const CreateSet: NextPage = () => {
                 deleteButtonOnClick={() => handleDeleteCard(i)}
                 term={card.term}
                 defintion={card.definition}
+                upButtonOnClick={(e) => handleReorderUpwards(i)}
+                downButtonOnClick={(e) => handleReorderDownwards(i)}
               />
             );
           })}

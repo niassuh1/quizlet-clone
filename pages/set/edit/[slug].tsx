@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import Link from "next/link";
 
 //Toastify
 import { toast, ToastContainer } from "react-toastify";
@@ -149,6 +150,42 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
     setButtonDisabled(false);
   };
 
+  const handleReorderUpwards = (index: number) => {
+    console.log(index);
+    if (index - 1 < 0) return;
+    const cardsArr = [...cards!];
+
+    //Upper card order will increment, bottom card order will decrement
+    const upperCard = cardsArr[index - 1];
+    upperCard.order = index;
+    const bottomCard = cardsArr[index];
+    bottomCard.order = index - 1;
+
+    //Set the new card array value
+    cardsArr[index] = upperCard;
+    cardsArr[index - 1] = bottomCard;
+
+    //Set the new value
+    setCards(cardsArr);
+  };
+  const handleReorderDownwards = (index: number) => {
+    console.log(index);
+    if (index + 1 >= cards!.length) return;
+    const cardsArr = [...cards!];
+
+    const upperCard = cardsArr[index];
+    upperCard.order = index + 1;
+    const bottomCard = cardsArr[index + 1];
+    bottomCard.order = index;
+
+    //Set the new card array value
+    cardsArr[index + 1] = upperCard;
+    cardsArr[index] = bottomCard;
+
+    //Set the new value
+    setCards(cardsArr);
+  };
+
   return (
     <div>
       <Head>
@@ -159,61 +196,70 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
       <ToastContainer position="top-center" autoClose={3000} />
       <GrayBackground />
       <Header />
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col px-9 mt-4 space-y-8 mb-14"
-      >
-        <div className="flex space-x-4 md:space-x-12">
-          <TextField
-            className="text-lg md:text-3xl"
-            label="Title"
-            placeholder="Study Set Title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            className="text-lg md:text-3xl"
-            label="Description"
-            placeholder="Description"
-            type="text"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col space-y-4">
-          {cards!.map((card, i) => {
-            return (
-              <TermDefinitionCard
-                key={card.id}
-                term={card.term}
-                defintion={card.definition}
-                deleteButtonOnClick={() => handleDeleteCard(i)}
-                termOnChange={(e) => handleTermChange(e, i)}
-                definitionOnChange={(e) => handleDefinitionChange(e, i)}
-              />
-            );
-          })}
-        </div>
-        <Card className="p-5">
-          <div
-            onClick={handleAddCard}
-            className="border-2 text-lg font-medium cursor-pointer transition-colors ease-in-out duration-200 text-accent-600 hover:text-primary-400 flex items-center justify-center border-accent-600 rounded-md border-dashed  w-full h-full p-14"
-          >
-            Add Card
-          </div>
-        </Card>
-        <Button
-          disabled={buttonDisabled}
-          type="submit"
-          className={` p-4 rounded-xl text-white ${
-            buttonDisabled ? "bg-gray-500" : "bg-green"
-          }`}
+      <div className="px-9 mt-4 mb-8 flex flex-col space-y-4">
+        <Link href={`/set/${set?.id}`} passHref>
+          <a className="bg-gray-700 hover:bg-gray-900 transition-colors ease-in-out duration-200 rounded-lg px-4 py-2 text-white flex w-min">
+            Start
+          </a>
+        </Link>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col  space-y-8 mb-14"
         >
-          {buttonDisabled ? <>Saving</> : <>Save</>}
-        </Button>
-      </form>
+          <div className="flex space-x-4 md:space-x-12">
+            <TextField
+              className="text-lg md:text-3xl"
+              label="Title"
+              placeholder="Study Set Title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextField
+              className="text-lg md:text-3xl"
+              label="Description"
+              placeholder="Description"
+              type="text"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-4">
+            {cards!.map((card, i) => {
+              return (
+                <TermDefinitionCard
+                  key={card.id}
+                  term={card.term}
+                  defintion={card.definition}
+                  deleteButtonOnClick={() => handleDeleteCard(i)}
+                  termOnChange={(e) => handleTermChange(e, i)}
+                  definitionOnChange={(e) => handleDefinitionChange(e, i)}
+                  upButtonOnClick={() => handleReorderUpwards(i)}
+                  downButtonOnClick={() => handleReorderDownwards(i)}
+                />
+              );
+            })}
+          </div>
+          <Card className="p-5">
+            <div
+              onClick={handleAddCard}
+              className="border-2 text-lg font-medium cursor-pointer transition-colors ease-in-out duration-200 text-accent-600 hover:text-primary-400 flex items-center justify-center border-accent-600 rounded-md border-dashed  w-full h-full p-14"
+            >
+              Add Card
+            </div>
+          </Card>
+          <Button
+            disabled={buttonDisabled}
+            type="submit"
+            className={` p-4 rounded-xl text-white ${
+              buttonDisabled ? "bg-gray-500" : "bg-green"
+            }`}
+          >
+            {buttonDisabled ? <>Saving</> : <>Save</>}
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

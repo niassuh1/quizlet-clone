@@ -26,17 +26,22 @@ const TermDefinitionCard: FC<TermDefinitionCardProps> = ({
   defintion,
 }) => {
   return (
-    <Card key={key} className="p-5 flex-col space-y-2">
+    <Card
+      key={key}
+      className="p-5 flex-col space-y-2 transition-all ease-in-out duration-500"
+    >
       <div className="flex justify-between items-center space-x-3">
         <MdMenu />
         <div className="space-y-2">
           <IconButton
             className="text-accent-600 hover:bg-accent-300 hover:text-primary-400 active:bg-accent-400 "
             Icon={MdExpandLess}
+            onClick={upButtonOnClick}
           />
           <IconButton
             className="text-accent-600 hover:bg-accent-300 hover:text-primary-400 active:bg-accent-400 "
             Icon={MdExpandMore}
+            onClick={downButtonOnClick}
           />
         </div>
       </div>

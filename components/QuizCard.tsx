@@ -1,4 +1,4 @@
-import { FC, Key } from "react";
+import { FC, Key, ReactElement } from "react";
 import Button from "./Button";
 import { MdNote } from "react-icons/md";
 import Link from "next/link";
@@ -10,6 +10,8 @@ interface QuizCardProps {
   creatorName?: string;
   key?: Key;
   id?: string;
+  className?: string;
+  footer?: ReactElement;
 }
 
 const QuizCard: FC<QuizCardProps> = ({
@@ -19,11 +21,13 @@ const QuizCard: FC<QuizCardProps> = ({
   title,
   key,
   id,
+  className,
+  footer,
 }) => {
   return (
     <div
       key={key}
-      className="flex flex-col max-w-screen-md box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01]"
+      className={`flex flex-col  box-border bg-white drop-shadow-sm shadow-lg transition-all ease-in-out duration-200 p-6 space-y-4 hover:shadow-xl hover:scale-[1.01] ${className}`}
     >
       <div className="flex justify-between">
         <h1 className="flex items-center space-x-2">
@@ -39,11 +43,14 @@ const QuizCard: FC<QuizCardProps> = ({
       <p className="flex-1 text-sm text-accent-500 overflow-ellipsis">
         {description}
       </p>
-      <Link href={`/set/${id}`} passHref>
-        <a className="bg-primary-500 uppercase tracking-[0.15em] text-xs text-white px-4 py-3 rounded-lg self-start active:bg-primary-300 transition-colors ease-in-out duration-[150ms]">
-          Start
-        </a>
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/set/${id}`} passHref>
+          <a className="bg-primary-500 uppercase tracking-[0.15em] text-xs text-white px-4 py-3 rounded-lg self-start active:bg-primary-300 transition-colors ease-in-out duration-[150ms]">
+            Start
+          </a>
+        </Link>
+        {footer}
+      </div>
     </div>
   );
 };

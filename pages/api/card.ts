@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prismaClient from "../../util/prismaclient";
 
+/*
+API Request for card CRUD operations
+*/
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //Add new cards
   if (req.method == "POST") {

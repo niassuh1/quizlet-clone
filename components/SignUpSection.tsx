@@ -12,6 +12,7 @@ import Link from "next/link";
 interface SingUpProps {
   emailOnChange?: ChangeEventHandler;
   passwordOnChange?: ChangeEventHandler;
+  confirmPasswordOnChange?: ChangeEventHandler;
   nameOnChange?: ChangeEventHandler;
   onSubmit?: FormEventHandler;
 }
@@ -82,7 +83,7 @@ const SingUpSection: FC<SingUpProps> = ({
         />
         <Button
           type="submit"
-          className="w-full bg-primary-500 p-4 text-white rounded-2xl shadow-md drop-shadow-lg"
+          className="w-full bg-primary-300 hover:bg-primary-400 active:bg-primary-500 p-4 text-white rounded-2xl shadow-md drop-shadow-lg"
         >
           Sign Up
         </Button>

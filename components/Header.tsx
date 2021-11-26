@@ -1,5 +1,10 @@
 import { FC, MouseEventHandler, useEffect, useMemo, useState } from "react";
-import { MdMenu, MdChevronLeft, MdLogout } from "react-icons/md";
+import {
+  MdMenu,
+  MdChevronLeft,
+  MdLogout,
+  MdChevronRight,
+} from "react-icons/md";
 import IconButton from "./IconButton";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,30 +15,20 @@ import getCurrentuser from "../util/getCurrentUser";
 const Header: FC = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [username, setName] = useState("");
-  const { user } = useAuthContext();
+  const { user, name } = useAuthContext();
   const [beCool, setBeCool] = useState(false);
 
   const toggleNav: MouseEventHandler = () => {
     setNavOpen(!navOpen);
   };
 
-  useEffect(() => {
-    if (user) {
-      getCurrentuser(user)
-        .then((data) => {
-          setName(data.name);
-        })
-        .catch();
-    }
-  }, [user]);
-
   //For doing something cool
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (scrollY >= 160) {
         setBeCool(true);
-      } else {
         setNavOpen(false);
+      } else {
         setBeCool(false);
       }
     });
@@ -45,7 +40,7 @@ const Header: FC = () => {
       <header
         className={`flex px-9 py-6 items-center z-[99] md:justify-between transition-all ease-in-out duration-[250ms]  ${
           beCool
-            ? "fixed w-full bg-white bg-opacity-5 backdrop-blur-md top-0 shadow-lg"
+            ? "fixed w-full bg-white bg-opacity-80 backdrop-blur-sm top-0 shadow-lg"
             : "-top-full"
         }`}
       >
@@ -78,16 +73,28 @@ const Header: FC = () => {
             Home
           </NavItem>
 
+          {user ? (
+            <NavItem
+              className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
+              href={`/library/${user.id}`}
+            >
+              Your Library
+            </NavItem>
+          ) : (
+            <></>
+          )}
+
           <NavItem
-            className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
-            href="/library"
+            className="bg-primary-300 items-center space-x-2 hover:bg-primary-500 text-white rounded-md"
+            href="set/create"
           >
-            Library
+            <span>Create Set</span>
+            <MdChevronRight size={25} />
           </NavItem>
 
           <div className="flex-1 md:hidden" />
 
-          {user ? <UserGreeting username={username} /> : <GuestGreeting />}
+          {user ? <UserGreeting username={name!} /> : <GuestGreeting />}
         </Nav>
       </header>
       {beCool && <div className="flex h-[80px]" />}
@@ -108,7 +115,7 @@ interface NavProps {
 const Nav: FC<NavProps> = ({ children, isOpen = false }) => {
   return (
     <nav
-      className={`flex fixed z-50 left-0 top-0 bg-white shadow-lg py-2 pb-20 h-screen md:h-auto transform ${
+      className={`flex fixed z-50 left-0 top-0 bg-white shadow-lg py-2 h-screen md:h-auto transform ${
         isOpen ? "" : "-translate-x-full"
       } transition-transform ease-in-out md:relative md:bg-transparent md:shadow-none md:transform-none md:py-0`}
     >
@@ -172,13 +179,16 @@ const GuestGreeting: FC = () => {
   return (
     <>
       <NavItem
-        className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
+        className="hover:bg-accent-300 justify-center rounded-md md:hover:bg-accent-400"
         href="/sign-in"
       >
         Sign In
       </NavItem>
 
-      <NavItem className="bg-primary-400 text-white rounded-md" href="/sign-up">
+      <NavItem
+        className="bg-primary-400 justify-center text-white rounded-md"
+        href="/sign-up"
+      >
         Sign Up
       </NavItem>
     </>

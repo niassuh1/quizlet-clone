@@ -14,12 +14,13 @@ const SignUp: NextPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [pwd, setPwd] = useState("");
+  const [pwdConfirm, setConfirm] = useState("");
   const { user } = useAuthContext();
 
   const router = useRouter();
 
   //If the user is authenticated, then go back
-  if (user) router.back();
+  if (user) router.push("/");
 
   const handleEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
@@ -27,6 +28,11 @@ const SignUp: NextPage = () => {
 
   const handlePasswordChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setPwd(e.target.value);
+  };
+  const handlePasswordConfirmChange: ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    setConfirm(e.target.value);
   };
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setName(e.target.value);
@@ -37,6 +43,9 @@ const SignUp: NextPage = () => {
     if (email == "" || name == "" || pwd == "") {
       toast.info("😪 Some fields are empty");
       return;
+    }
+    if (pwd !== pwdConfirm) {
+      toast.error("😕 Make sure the passwords match!");
     }
 
     try {
@@ -62,6 +71,7 @@ const SignUp: NextPage = () => {
         <SingUpSection
           emailOnChange={handleEmailChange}
           passwordOnChange={handlePasswordChange}
+          confirmPasswordOnChange={handlePasswordConfirmChange}
           nameOnChange={handleNameChange}
           onSubmit={handleSubmit}
         />

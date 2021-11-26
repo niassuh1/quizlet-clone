@@ -10,8 +10,9 @@ import prismaClient from "../util/prismaclient";
 import GrayBackground from "../components/GrayBackground";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
-import "react-toastify/dist/ReactToastify.css";
+
 import { toast, ToastContainer } from "react-toastify";
+import supabase from "../util/supabase";
 
 interface HomeProps {
   sets?: SetType[];
