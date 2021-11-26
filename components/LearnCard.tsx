@@ -22,7 +22,7 @@ const LearnCards: FC<LearnCardsProps> = ({ cards }) => {
     const optionsArr: any[] = [];
     optionsArr.push(cards![page].definition);
     //Add options to the array
-    for (let i = 1; i < cards!.length; i++) {
+    for (let i = 0; i < cards!.length; i++) {
       if (cardsArr[i].definition !== optionsArr[0])
         optionsArr.push(cardsArr[i].definition);
       if (optionsArr.length > 3) break;

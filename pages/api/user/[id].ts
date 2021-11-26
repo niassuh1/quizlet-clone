@@ -7,11 +7,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     where: {
       id: id,
     },
+    include: { set: true },
   });
   res.send({
     id: userInfo?.id,
     name: userInfo?.name,
     email: userInfo?.email,
+    set: userInfo?.set,
   });
 };
 

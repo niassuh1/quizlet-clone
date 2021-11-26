@@ -33,7 +33,7 @@ interface EditSetProps {
 }
 
 const EditSet: NextPage<EditSetProps> = ({ set }) => {
-  const { user } = useAuthContext();
+  const { user, userData } = useAuthContext();
   const router = useRouter();
   const [title, setTitle] = useState<string | undefined>(set?.title);
   const [desc, setDesc] = useState<string | undefined>(set?.description);
@@ -42,11 +42,22 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
   const [cards, setCards] = useState<CardType[] | undefined>(set?.card);
   const [deletedCards, setDeletedCards] = useState<CardType[]>([]);
 
+  const [otherSets, setOtherSets] = useState<any[]>([]);
+
   useEffect(() => {
     if (user?.id != set?.creatorId) {
       router.push("/");
     }
   });
+
+  useEffect(() => {
+    const newOtherSet: any[] = [];
+    userData?.set?.forEach((setValue) => {
+      newOtherSet.push({ value: setValue.id, label: setValue.title });
+      setOtherSets(newOtherSet);
+    });
+    return () => {};
+  }, [userData]);
 
   const handleTermChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -147,7 +158,7 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
       cards,
     });
 
-    setButtonDisabled(false);
+    router.reload();
   };
 
   const handleReorderUpwards = (index: number) => {
@@ -168,6 +179,7 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
     //Set the new value
     setCards(cardsArr);
   };
+
   const handleReorderDownwards = (index: number) => {
     console.log(index);
     if (index + 1 >= cards!.length) return;
@@ -237,6 +249,14 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
                   definitionOnChange={(e) => handleDefinitionChange(e, i)}
                   upButtonOnClick={() => handleReorderUpwards(i)}
                   downButtonOnClick={() => handleReorderDownwards(i)}
+                  edit
+                  options={otherSets}
+                  setIdOnChange={(val) => {
+                    const cardsArr = [...cards!];
+                    cardsArr[i].setId = val?.value;
+                    setCards(cardsArr);
+                  }}
+                  set={set}
                 />
               );
             })}

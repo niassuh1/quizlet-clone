@@ -11,11 +11,12 @@ import Image from "next/image";
 import { useAuthContext } from "../context/Auth";
 import supabase from "../util/supabase";
 import getCurrentuser from "../util/getCurrentUser";
+import { UserType } from "../types";
 
 const Header: FC = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [username, setName] = useState("");
-  const { user, name } = useAuthContext();
+  const { user, userData } = useAuthContext();
   const [beCool, setBeCool] = useState(false);
 
   const toggleNav: MouseEventHandler = () => {
@@ -74,25 +75,26 @@ const Header: FC = () => {
           </NavItem>
 
           {user ? (
-            <NavItem
-              className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
-              href={`/library/${user.id}`}
-            >
-              Your Library
-            </NavItem>
+            <>
+              <NavItem
+                className="hover:bg-accent-300 rounded-md md:hover:bg-accent-400"
+                href={`/library/${user.id}`}
+              >
+                Your Library
+              </NavItem>
+              <NavItem
+                className="bg-primary-300 items-center space-x-2 hover:bg-primary-500 text-white rounded-md"
+                href="/set/create"
+              >
+                <span>Create Set</span>
+                <MdChevronRight size={25} />
+              </NavItem>
+            </>
           ) : (
             <></>
           )}
 
-          <NavItem
-            className="bg-primary-300 items-center space-x-2 hover:bg-primary-500 text-white rounded-md"
-            href="/set/create"
-          >
-            <span>Create Set</span>
-            <MdChevronRight size={25} />
-          </NavItem>
-
-          {user ? <UserGreeting username={name!} /> : <GuestGreeting />}
+          {user ? <UserGreeting userData={userData!} /> : <GuestGreeting />}
         </Nav>
       </header>
       {beCool && <div className="flex h-[80px]" />}
@@ -150,17 +152,17 @@ const NavItem: FC<NavItemProps> = ({ children, href, className }) => {
 };
 
 interface UserGreetingProps {
-  username: string;
+  userData: UserType;
 }
 
-const UserGreeting: FC<UserGreetingProps> = ({ username }) => {
+const UserGreeting: FC<UserGreetingProps> = ({ userData }) => {
   return (
     <>
-      {username && (
+      {userData && (
         <div className="flex items-start justify-between space-x-4 md:flex-row">
           <div className="flex flex-col">
             <h1 className="text-xs h-3 font-medium">Welcome,</h1>
-            <span className="text-sm">{username}</span>
+            <span className="text-sm">{userData.name}</span>
           </div>
           <IconButton
             className="hover:bg-transparent hover:text-green"

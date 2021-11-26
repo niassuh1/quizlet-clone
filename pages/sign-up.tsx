@@ -1,14 +1,17 @@
+//Next Items
 import { NextPage } from "next";
 import Head from "next/head";
+
+//Utilties
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import SingUpSection from "../components/SignUpSection";
-import "react-toastify/dist/ReactToastify.css";
 import supabase from "../util/supabase";
-import prismaClient from "../util/prismaclient";
 import axios from "axios";
 import { useAuthContext } from "../context/Auth";
 import { useRouter } from "next/dist/client/router";
+
+//Components
+import SingUpSection from "../components/SignUpSection";
 
 const SignUp: NextPage = () => {
   const [email, setEmail] = useState("");
@@ -46,6 +49,7 @@ const SignUp: NextPage = () => {
     }
     if (pwd !== pwdConfirm) {
       toast.error("😕 Make sure the passwords match!");
+      return;
     }
 
     try {

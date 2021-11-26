@@ -3,6 +3,8 @@ import { MdDelete, MdExpandLess, MdExpandMore, MdMenu } from "react-icons/md";
 import Card from "./Card";
 import IconButton from "./IconButton";
 import { TextField } from "./TextField";
+import Select, { ActionMeta, SingleValue } from "react-select";
+import { SetType } from "../types";
 
 interface TermDefinitionCardProps {
   deleteButtonOnClick?: MouseEventHandler;
@@ -10,26 +12,56 @@ interface TermDefinitionCardProps {
   downButtonOnClick?: MouseEventHandler;
   termOnChange?: ChangeEventHandler<HTMLInputElement>;
   term?: string;
-  defintion?: string;
   definitionOnChange?: ChangeEventHandler<HTMLInputElement>;
+  defintion?: string;
   key?: Key;
+  edit?: boolean;
+
+  setIdOnChange?: (
+    newValue: SingleValue<{
+      value: string | undefined;
+      label: string | undefined;
+    }>,
+    actionMeta: ActionMeta<{
+      value: string | undefined;
+      label: string | undefined;
+    }>
+  ) => void;
+  set?: SetType;
+  options?: any[];
 }
 
 const TermDefinitionCard: FC<TermDefinitionCardProps> = ({
   termOnChange,
+  term,
   definitionOnChange,
+  defintion,
   deleteButtonOnClick,
   downButtonOnClick,
-  key,
   upButtonOnClick,
-  term,
-  defintion,
+  key,
+  edit = false,
+  options,
+  setIdOnChange,
+  set,
 }) => {
+  console.log(options);
   return (
-    <Card
-      key={key}
-      className="p-5 flex-col space-y-2 transition-all ease-in-out duration-500"
-    >
+    <Card key={key} className="p-5 flex-col space-y-2">
+      {edit ? (
+        <div className="flex flex-col">
+          <h1 className="text-sm font-medium">Move to other set</h1>
+          <Select
+            defaultValue={{ value: set?.id, label: set?.title }}
+            className="w-full"
+            placeholder="Move To Another Study Set"
+            options={options}
+            onChange={setIdOnChange}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="flex justify-between items-center space-x-3">
         <MdMenu />
         <div className="space-y-2">

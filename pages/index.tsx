@@ -1,18 +1,21 @@
 import type { GetServerSideProps, NextPage } from "next";
+// Next items
 import Head from "next/head";
+import Link from "next/link";
+
+// React items
 import { FC, useEffect } from "react";
 
+//Utilities
+import { SetType } from "../types";
+import prismaClient from "../util/prismaclient";
+import { useRouter } from "next/dist/client/router";
+import { toast, ToastContainer } from "react-toastify";
+
+///Components
 import Header from "../components/Header";
 import SetCard from "../components/SetCard";
-import { SetType } from "../types";
-
-import prismaClient from "../util/prismaclient";
 import GrayBackground from "../components/GrayBackground";
-import Link from "next/link";
-import { useRouter } from "next/dist/client/router";
-
-import { toast, ToastContainer } from "react-toastify";
-import supabase from "../util/supabase";
 
 interface HomeProps {
   sets?: SetType[];

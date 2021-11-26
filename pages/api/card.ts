@@ -23,7 +23,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //Update existing cards
   else if (req.method == "PUT") {
     const { cards } = req.body;
-
     try {
       const cardsArr = cards as [];
       cardsArr.forEach(async (card: any) => {
@@ -35,10 +34,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.send({ error: "Unable to update cards" });
     }
   }
+
   //Delete cards
   else if (req.method == "DELETE") {
     const deletedCards = req.body as [];
-
     try {
       deletedCards.forEach(async (card: any) => {
         await prismaClient.card.delete({

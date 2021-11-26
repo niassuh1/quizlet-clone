@@ -1,10 +1,10 @@
+//Next Items
 import { NextPage } from "next";
-import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
-import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
-import GrayBackground from "../../components/GrayBackground";
-import Header from "../../components/Header";
+
+//Utilities
+import { useRouter } from "next/dist/client/router";
 import { useAuthContext } from "../../context/Auth";
 import React, {
   ChangeEvent,
@@ -12,11 +12,16 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
+import axios from "axios";
+import TermDefinitionCard from "../../components/TermDefinitonCard";
+
+//Components
 import { TextField } from "../../components/TextField";
 import Card from "../../components/Card";
 import Button from "../../components/Button";
-import axios from "axios";
-import TermDefinitionCard from "../../components/TermDefinitonCard";
+import GrayBackground from "../../components/GrayBackground";
+import Header from "../../components/Header";
 
 interface CardsState {
   order?: number;

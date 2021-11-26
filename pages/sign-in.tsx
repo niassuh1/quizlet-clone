@@ -1,16 +1,18 @@
+//Next Items
 import { NextPage } from "next";
-
-import { ChangeEventHandler, FormEventHandler, useState } from "react";
-
 import Head from "next/head";
-import SignInSection from "../components/SignInSection";
-import supabase from "../util/supabase";
 
+//Utilities
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import supabase from "../util/supabase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/dist/client/router";
-import SignInHero from "../components/SignInHero";
 import { useAuthContext } from "../context/Auth";
+
+//Components
+import SignInSection from "../components/SignInSection";
+import SignInHero from "../components/SignInHero";
 
 const SignIn: NextPage = () => {
   const [email, setEmail] = useState("");
@@ -63,15 +65,5 @@ const SignIn: NextPage = () => {
     </div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const user = await supabase.auth.session()?.user;
-//   console.log(user);
-
-//   if (user) {
-//     console.log("Theres a user");
-//   }
-//   return { props: {} };
-// };
 
 export default SignIn;

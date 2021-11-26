@@ -9,9 +9,9 @@ import Image from "next/image";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-cards";
-import StudyCard from "../../components/StudyCard";
+
 import TabButton from "../../components/TabButton";
-import TabMenu from "../../components/TabMenu";
+
 import { useAuthContext } from "../../context/Auth";
 import Button from "../../components/Button";
 import axios from "axios";

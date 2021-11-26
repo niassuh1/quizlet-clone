@@ -1,11 +1,12 @@
 import { User } from "@supabase/supabase-js";
 import { createContext, FC, useContext, useState, useEffect } from "react";
+import { UserType } from "../types";
 import getCurrentuser from "../util/getCurrentUser";
 import supabase from "../util/supabase";
 
 interface AuthContextProps {
   user?: User | null;
-  name?: string;
+  userData?: UserType;
 }
 
 const AuthContext = createContext<AuthContextProps>({});
@@ -20,7 +21,7 @@ export const useAuthContext = () => {
  */
 export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<User | null>();
-  const [name, setName] = useState<string>("");
+  const [userData, setUserData] = useState<UserType>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export const AuthProvider: FC = ({ children }) => {
     if (user) {
       getCurrentuser(user)
         .then((data) => {
-          setName(data.name);
+          setUserData(data);
         })
         .catch();
     }
@@ -46,7 +47,7 @@ export const AuthProvider: FC = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, name }}>
+    <AuthContext.Provider value={{ user, userData }}>
       {!loading && children}
     </AuthContext.Provider>
   );

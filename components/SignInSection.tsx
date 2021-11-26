@@ -33,10 +33,10 @@ const SignInSection: FC<SingInProps> = ({
       </div>
       <h1 className="text-lg font-semibold text-accent-500 mb-4">Studify</h1>
       <span className="flex items-center">
-        <span className="text-2xl">👋</span>
-        <h1 className="font-semibold text-lg ml-1"> Welcome</h1>
+        <span className="text-3xl">👋</span>
+        <h1 className="font-semibold text-3xl ml-1 "> Welcome</h1>
       </span>
-      <Button className="border-2 w-full justify-center border-black flex items-center px-8 py-3 space-x-4 rounded-2xl transition-colors ease-in-out duration-200 hover:bg-accent-300 active:bg-accent-400">
+      {/* <Button className="border-2 w-full justify-center border-black flex items-center px-8 py-3 space-x-4 rounded-2xl transition-colors ease-in-out duration-200 hover:bg-accent-300 active:bg-accent-400">
         <Image
           alt="google icon"
           width={20}
@@ -49,7 +49,7 @@ const SignInSection: FC<SingInProps> = ({
         <div className="h-[1px] w-1/2 bg-accent-500" />
         <span className="mx-4 uppercase font-medium text-xs">Or</span>
         <div className="h-[1px] w-1/2 bg-accent-500" />
-      </div>
+      </div> */}
       <form onSubmit={onSubmit} className="space-y-6 flex flex-col w-full">
         <TextField
           className="text-sm"
@@ -65,7 +65,7 @@ const SignInSection: FC<SingInProps> = ({
           onChange={passwordOnChange}
         />
         <Button
-          className="w-full bg-primary-500 p-4 text-white rounded-2xl shadow-md drop-shadow-lg"
+          className="w-full bg-primary-300 hover:bg-primary-400 active:bg-primary-500 p-4 text-white rounded-2xl shadow-md drop-shadow-lg"
           type="submit"
         >
           Sign In
