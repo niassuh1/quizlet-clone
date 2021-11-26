@@ -16,7 +16,7 @@ const FlashCard: FC<StudyCardProps> = ({ card }) => {
       `}
     >
       {flip ? (
-        card?.definition
+        <p className="text-lg md:text-2xl">{card?.definition}</p>
       ) : (
         <p className="font-medium text-lg md:text-2xl">{card?.term}</p>
       )}

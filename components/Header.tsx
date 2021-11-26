@@ -25,11 +25,11 @@ const Header: FC = () => {
   //For doing something cool
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      if (scrollY >= 160) {
+      if (scrollY >= 80) {
         setBeCool(true);
-        setNavOpen(false);
       } else {
         setBeCool(false);
+        setNavOpen(false);
       }
     });
     return () => {};
@@ -38,7 +38,7 @@ const Header: FC = () => {
   return (
     <>
       <header
-        className={`flex px-9 py-6 items-center z-[99] md:justify-between transition-all ease-in-out duration-[250ms]  ${
+        className={`flex px-9 py-6 box-border items-center z-[99] md:justify-between transition-all ease-out duration-[250ms]  ${
           beCool
             ? "fixed w-full bg-white bg-opacity-80 backdrop-blur-sm top-0 shadow-lg"
             : "-top-full"
@@ -86,13 +86,11 @@ const Header: FC = () => {
 
           <NavItem
             className="bg-primary-300 items-center space-x-2 hover:bg-primary-500 text-white rounded-md"
-            href="set/create"
+            href="/set/create"
           >
             <span>Create Set</span>
             <MdChevronRight size={25} />
           </NavItem>
-
-          <div className="flex-1 md:hidden" />
 
           {user ? <UserGreeting username={name!} /> : <GuestGreeting />}
         </Nav>
@@ -115,11 +113,11 @@ interface NavProps {
 const Nav: FC<NavProps> = ({ children, isOpen = false }) => {
   return (
     <nav
-      className={`flex fixed z-50 left-0 top-0 bg-white shadow-lg py-2 h-screen md:h-auto transform ${
+      className={`flex fixed h-screen z-50 left-0 top-0 bg-white shadow-lg py-2 md:h-auto transform ${
         isOpen ? "" : "-translate-x-full"
       } transition-transform ease-in-out md:relative md:bg-transparent md:shadow-none md:transform-none md:py-0`}
     >
-      <ul className="flex flex-col px-4 space-y-2 md:space-x-10 md:space-y-0 md:flex-row md:relative md:items-center md:px-0">
+      <ul className="flex flex-col px-4 space-y-6 md:space-x-10 md:space-y-0 md:flex-row md:relative md:items-center md:px-0">
         {children}
       </ul>
     </nav>
@@ -159,7 +157,7 @@ const UserGreeting: FC<UserGreetingProps> = ({ username }) => {
   return (
     <>
       {username && (
-        <div className="flex items-start space-x-4 md:flex-row">
+        <div className="flex items-start justify-between space-x-4 md:flex-row">
           <div className="flex flex-col">
             <h1 className="text-xs h-3 font-medium">Welcome,</h1>
             <span className="text-sm">{username}</span>

@@ -1,5 +1,5 @@
 import React from "react";
-import QuizCard from "./QuizCard";
+import SetCard from "./SetCard";
 import Image from "next/image";
 
 const SignInHero = () => {
@@ -20,14 +20,14 @@ const SignInHero = () => {
       </h1>
       <div className="absolute w-[70%] h-full">
         <span className="scale-75 absolute w-full left-20 top-0">
-          <QuizCard
+          <SetCard
             title="Math Quiz"
             amount="22"
             description="Quick recap for calculus"
           />
         </span>
         <span className="scale-[0.65] absolute w-[calc(100%+2em)] top-16 left-[9.5rem]">
-          <QuizCard
+          <SetCard
             title="Physics Chapter 1"
             amount="22"
             description="A fast review for final exam, covering Chapters 1 and 2"

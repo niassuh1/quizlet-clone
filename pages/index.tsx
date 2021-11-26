@@ -3,7 +3,7 @@ import Head from "next/head";
 import { FC, useEffect } from "react";
 
 import Header from "../components/Header";
-import QuizCard from "../components/QuizCard";
+import SetCard from "../components/SetCard";
 import { SetType } from "../types";
 
 import prismaClient from "../util/prismaclient";
@@ -42,11 +42,11 @@ const Home: NextPage<HomeProps> = ({ sets }) => {
       <Header />
 
       <div className="px-9 mb-6">
-        <h1 className="text-xl mb-4 font-medium">Latest Quizzes</h1>
-        <QuizCardGrid>
+        <h1 className="text-xl mb-4 font-medium">Latest Study Sets</h1>
+        <SetCardGrid>
           {sets!.map((set) => {
             return (
-              <QuizCard
+              <SetCard
                 key={set.id}
                 title={set.title}
                 amount={set.card!.length}
@@ -55,12 +55,12 @@ const Home: NextPage<HomeProps> = ({ sets }) => {
               />
             );
           })}
-        </QuizCardGrid>
+        </SetCardGrid>
       </div>
       <div className="px-9 w-full flex flex-col space-y-4">
         <h1 className="mx-auto text-xl font-medium text-green">Interested?</h1>
         <Link href="/set/create">
-          <a className="bg-primary-400 text-xs flex justify-center items-center sm:text-base shadow-lg text-white w-full sm:w-1/3 mx-auto px-4 py-2 rounded-xl hover:bg-primary-500">
+          <a className="bg-primary-400 text-xs flex justify-center items-center sm:text-base shadow-lg text-white w-full sm:w-1/3 mx-auto px-4 py-3 rounded-xl hover:bg-primary-500">
             Create Your Own
           </a>
         </Link>
@@ -70,7 +70,7 @@ const Home: NextPage<HomeProps> = ({ sets }) => {
   );
 };
 
-const QuizCardGrid: FC = ({ children }) => {
+const SetCardGrid: FC = ({ children }) => {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {children}

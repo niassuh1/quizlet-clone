@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import GrayBackground from "../../components/GrayBackground";
 import Header from "../../components/Header";
-import QuizCard from "../../components/QuizCard";
+import SetCard from "../../components/SetCard";
 import { SetType } from "../../types";
 import prismaClient from "../../util/prismaclient";
 import IconButton from "../../components/IconButton";
@@ -14,6 +14,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useAuthContext } from "../../context/Auth";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
+import Button from "../../components/Button";
+import axios from "axios";
 
 interface LibraryProps {
   userSets?: SetType[];
@@ -23,10 +25,20 @@ interface LibraryProps {
 const Library: NextPage<LibraryProps> = ({ userSets, creatorId }) => {
   const { user } = useAuthContext();
   const [isCreator, setIsCreator] = useState(false);
+  const route = useRouter();
   useEffect(() => {
     setIsCreator(user?.id == creatorId);
     return () => {};
-  }, []);
+  }, [creatorId, user?.id]);
+
+  const handleDelete = async (index: number) => {
+    const del = await axios.delete(`/api/set/delete`, {
+      data: { id: userSets![index].id },
+    });
+    if (del.status == 200) {
+      route.reload();
+    }
+  };
   return (
     <div>
       <Head>
@@ -38,25 +50,39 @@ const Library: NextPage<LibraryProps> = ({ userSets, creatorId }) => {
       <Header />
 
       <div className="px-9 flex flex-col">
-        <h1 className="text-xl font-medium mb-4">Your library</h1>
+        <div className="flex justify-between items-center  mb-4">
+          <h1 className="text-xl font-medium">Your library</h1>
+          <Link href="/set/create" passHref>
+            <a>
+              <Button className="bg-green hover:bg-darkGreen items-center space-x-2  text-white rounded-md p-2">
+                Create Set
+              </Button>
+            </a>
+          </Link>
+        </div>
+
         <div className="flex w-full ">
           <Swiper
             slidesPerView={1}
             breakpoints={{
-              805: {
+              850: {
                 slidesPerView: 2,
+              },
+              1395: {
+                slidesPerView: 3,
               },
             }}
             spaceBetween={20}
             className="flex w-full"
           >
-            {userSets?.map((set) => {
+            {userSets?.map((set, index) => {
               return (
                 <SwiperSlide className="pb-16" key={set.id}>
-                  <QuizCard
+                  <SetCard
                     title={set.title}
                     amount={set.card?.length}
                     description={set.description}
+                    id={set.id}
                     footer={
                       isCreator ? (
                         <div className="flex  space-x-2">
@@ -69,6 +95,7 @@ const Library: NextPage<LibraryProps> = ({ userSets, creatorId }) => {
                           <IconButton
                             Icon={MdDelete}
                             className="self-center hover:bg-accent-400"
+                            onClick={() => handleDelete(index)}
                           />
                         </div>
                       ) : (

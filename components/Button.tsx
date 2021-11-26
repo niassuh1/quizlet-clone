@@ -19,7 +19,7 @@ const Button: FC<ButtonProps> = ({
       disabled={disabled}
       type={type}
       onClick={onClick}
-      className={` ${className}`}
+      className={`${className} transition-colors ease-in-out duration-200`}
     >
       {children}
     </button>

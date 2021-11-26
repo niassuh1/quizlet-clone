@@ -6,11 +6,6 @@ import { SetType } from "../../types";
 import prismaClient from "../../util/prismaclient";
 import Image from "next/image";
 
-//SwiperJS Stuff
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { EffectCards } from "swiper";
-SwiperCore.use([EffectCards]);
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-cards";
@@ -21,16 +16,41 @@ import { useAuthContext } from "../../context/Auth";
 import Button from "../../components/Button";
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { ReactElement, useState } from "react";
 import Link from "next/link";
+import FlashCards from "../../components/FlashCards";
+import LearnCards from "../../components/LearnCard";
 
 interface SetSlugProps {
   set?: SetType;
 }
 
+interface MenuType {
+  [mode: string]: ReactElement;
+}
+
+enum Modes {
+  FLASHCARDS = "flashcards",
+  LEARN = "learn",
+}
+
 const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
   const { user } = useAuthContext();
   const route = useRouter();
+  const [mode, setMode] = useState(Modes.FLASHCARDS);
+
+  const tabMenu: MenuType = {
+    flashcards: (
+      <>
+        <FlashCards cards={set?.card} />
+      </>
+    ),
+    learn: (
+      <>
+        <LearnCards cards={set?.card} />
+      </>
+    ),
+  };
 
   const handleDelete = async () => {
     const del = await axios.delete(`/api/set/delete`, {
@@ -53,7 +73,10 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
       <div className="px-9">
         <h1 className="text-lg font-medium mb-4">{set?.title}</h1>
         <div className="flex w-full justify-center space-x-4 mb-3">
-          <TabButton>
+          <TabButton
+            selected={mode == Modes.FLASHCARDS}
+            onClick={() => setMode(Modes.FLASHCARDS)}
+          >
             <Image
               alt="flashcard"
               src="/images/flashcard-icon.svg"
@@ -63,7 +86,10 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
             <span>Flashcards</span>
           </TabButton>
 
-          <TabButton>
+          <TabButton
+            selected={mode == Modes.LEARN}
+            onClick={() => setMode(Modes.LEARN)}
+          >
             <Image
               alt="Learn"
               src="/images/learning-icon.svg"
@@ -91,19 +117,8 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
           <></>
         )}
 
-        <div className="w-[calc(100%-6rem)] mx-auto max-w-[430px] h-[300px] items-center justify-center shadow-xl">
-          <Swiper effect="cards" grabCursor={true} className="rounded-lg">
-            {set?.card?.map((cardValue) => {
-              return (
-                <SwiperSlide
-                  className="flex items-center h-full w-full justify-center rounded-lg"
-                  key={cardValue.id}
-                >
-                  <StudyCard key={cardValue.id} card={cardValue} />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+        <div className="w-[calc(100%-6rem)] mx-auto max-w-[450px] h-[300px] items-center justify-center">
+          {tabMenu[mode]}
         </div>
       </div>
     </div>
