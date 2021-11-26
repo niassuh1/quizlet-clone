@@ -156,6 +156,7 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
     //Update cards
     await axios.put("/api/card", {
       cards,
+      currentSetId: set?.id,
     });
 
     toast.success("🥳 Changes has been saved");

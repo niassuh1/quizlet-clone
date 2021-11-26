@@ -22,11 +22,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   //Update existing cards
   else if (req.method == "PUT") {
-    const { cards } = req.body;
+    const { cards, currentSetId } = req.body;
     try {
       const cardsArr = cards as [];
       cardsArr.forEach(async (card: any) => {
-        await prismaClient.card.update({ data: card, where: { id: card.id } });
+        if (card.setId != currentSetId) {
+          const newSet = await prismaClient.set.findUnique({
+            where: { id: currentSetId },
+            include: { card: true },
+          });
+          const index = newSet?.card.length;
+          await prismaClient.card.update({
+            data: {
+              id: card.id,
+              definition: card.defintion,
+              term: card.term,
+              setId: card.setId,
+              order: index,
+            },
+            where: { id: card.id },
+          });
+        } else {
+          await prismaClient.card.update({
+            data: card,
+            where: { id: card.id },
+          });
+        }
       });
 
       res.send({ message: "success" });
