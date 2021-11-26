@@ -158,7 +158,8 @@ const EditSet: NextPage<EditSetProps> = ({ set }) => {
       cards,
     });
 
-    router.reload();
+    toast.success("🥳 Changes has been saved");
+    setButtonDisabled(false);
   };
 
   const handleReorderUpwards = (index: number) => {
