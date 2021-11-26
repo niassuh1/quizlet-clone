@@ -42,12 +42,16 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
   const tabMenu: MenuType = {
     flashcards: (
       <>
-        <FlashCards cards={set?.card} />
+        <div className="w-[calc(100%-6rem)] mx-auto max-w-[450px] h-[300px] items-center justify-center">
+          <FlashCards cards={set?.card} />
+        </div>
       </>
     ),
     learn: (
       <>
-        <LearnCards cards={set?.card} />
+        <div className="w-full mx-auto max-w-[450px] h-[300px] items-center justify-center">
+          <LearnCards cards={set?.card} />
+        </div>
       </>
     ),
   };
@@ -117,9 +121,7 @@ const SetSlug: NextPage<SetSlugProps> = ({ set }) => {
           <></>
         )}
 
-        <div className="w-[calc(100%-6rem)] mx-auto max-w-[450px] h-[300px] items-center justify-center">
-          {tabMenu[mode]}
-        </div>
+        {tabMenu[mode]}
       </div>
     </div>
   );
